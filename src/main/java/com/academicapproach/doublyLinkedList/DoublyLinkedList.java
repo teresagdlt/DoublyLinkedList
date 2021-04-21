@@ -114,6 +114,22 @@ public class DoublyLinkedList<T> {
         return removeNode(lastNode);
     }
 
+    @Override
+    public String toString() {
+
+        NodeDL<T> loopNode = first;
+        String stringList = "[ ";
+
+        for (int i = 0; i < size; i++) {
+
+            stringList = stringList + (loopNode.element.toString()) + (loopNode != last ? ", " : " ");
+            loopNode = loopNode.next;
+        }
+
+        stringList = stringList + ("]");
+        return stringList;
+    }
+
     private void checkIndexPositionIsInBoundsAndThrowExceptionIfNot(int index) {
         if (index < 0 || index >= size) {
             throw new IndexOutOfBoundsException("Index out of range: " + index + ". List size is: " + size);

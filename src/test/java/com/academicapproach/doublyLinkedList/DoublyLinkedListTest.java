@@ -299,6 +299,7 @@ public class DoublyLinkedListTest {
 
         sut.removeLast();
     }
+
     @Test
     public void givenListWithElements_whenRemoveLast_thenReturnLastElementAndDeleteFromList() {
 
@@ -315,6 +316,43 @@ public class DoublyLinkedListTest {
         assertThat(removed).isEqualTo(13);
         assertThat(sut.getSize()).isEqualTo(3);
         assertThat(sut.getLast()).isEqualTo(12);
+    }
+
+
+    @Test
+    public void givenListWithElements_whenInvokeToString_thenReturnListAsString() {
+
+        // arrange
+
+        sut.addFirst(10);
+        sut.addLast(11);
+        sut.addLast(12);
+        actToStringAndAssertGivenResult("[ 10, 11, 12 ]");
+
+        sut.addAtPos(2, 2);
+        sut.addAtPos(0, 0);
+        sut.addLast(13);
+        actToStringAndAssertGivenResult("[ 0, 10, 11, 2, 12, 13 ]");
+
+        sut.removeFromPos(1);
+        sut.removeFromPos(3);
+        sut.addFirst(-1);
+        actToStringAndAssertGivenResult("[ -1, 0, 11, 2, 13 ]");
+
+        sut.removeLast();
+        sut.removeFirst();
+        actToStringAndAssertGivenResult("[ 0, 11, 2 ]");
+
+    }
+
+    private void actToStringAndAssertGivenResult(String expectedResult) {
+
+        // act
+        final String result = sut.toString();
+
+        // assert
+        assertThat(result).isEqualTo(expectedResult);
+
     }
 
 
