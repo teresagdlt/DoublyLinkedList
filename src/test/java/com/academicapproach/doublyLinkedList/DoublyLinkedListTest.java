@@ -79,15 +79,14 @@ public class DoublyLinkedListTest {
     public void givenListWithElements_whenGetByPosInFirstHalf_thenReturnTheCorrectOne() {
 
         // arrange
-        sut.addFirst(13);
-        sut.addFirst(12);
-        sut.addFirst(11);
         sut.addFirst(10);
+        sut.addLast(11);
+        sut.addLast(13);
+        sut.addAtPos(2, 12);
 
         //act
         final Integer first = sut.getByPos(0);
         final Integer second = sut.getByPos(1);
-
 
         // assert
         assertThat(first).isEqualTo(10);
@@ -98,10 +97,10 @@ public class DoublyLinkedListTest {
     public void givenListWithElements_whenGetByPosInSecondHalf_thenReturnTheCorrectOne() {
 
         // arrange
-        sut.addFirst(13);
-        sut.addFirst(12);
-        sut.addFirst(11);
         sut.addFirst(10);
+        sut.addLast(11);
+        sut.addLast(13);
+        sut.addAtPos(2, 12);
 
         //act
         final Integer third = sut.getByPos(2);
@@ -198,4 +197,76 @@ public class DoublyLinkedListTest {
         assertThat(lastElement).isEqualTo(10);
     }
 
+    @Test(expected = IndexOutOfBoundsException.class)
+    public void givenListWithElements_whenRemoveFromPosOutOfBounds_thenReturnIndexOutOfBoundsException() {
+
+        // arrange
+        sut.addFirst(2);
+        sut.addFirst(1);
+        sut.addFirst(0);
+
+        // act
+        sut.removeFromPos(3);
+
+    }
+
+    @Test
+    public void givenListWithElements_whenRemoveFromPosInTheMiddle_thenReturnElementAndDeleteFromList() {
+
+        // arrange
+        final Integer element = 10;
+        final int pos = 1;
+
+        sut.addFirst(2);
+        sut.addLast(3);
+        sut.addAtPos(pos, element);
+
+        // act
+        final Integer removed = sut.removeFromPos(pos);
+
+        // assert
+        assertThat(removed).isEqualTo(element);
+        assertThat(sut.getSize()).isEqualTo(2);
+        assertThat(sut.getByPos(pos)).isNotEqualTo(element);
+    }
+
+    @Test
+    public void givenListWithElements_whenRemoveFromPosZero_thenReturnElementAndDeleteFromList() {
+
+        // arrange
+        final Integer element = 10;
+        final int pos = 0;
+
+        sut.addFirst(2);
+        sut.addLast(3);
+        sut.addAtPos(pos, element);
+
+        // act
+        final Integer removed = sut.removeFromPos(pos);
+
+        // assert
+        assertThat(removed).isEqualTo(element);
+        assertThat(sut.getSize()).isEqualTo(2);
+        assertThat(sut.getByPos(pos)).isNotEqualTo(element);
+    }
+
+    @Test
+    public void givenListWithElements_whenRemoveFromPosLast_thenReturnElementAndDeleteFromList() {
+
+        // arrange
+        final Integer element = 10;
+        final int pos = 2;
+
+        sut.addFirst(2);
+        sut.addLast(3);
+        sut.addLast(element);
+
+        // act
+        final Integer removed = sut.removeFromPos(pos);
+
+        // assert
+        assertThat(removed).isEqualTo(element);
+        assertThat(sut.getSize()).isEqualTo(2);
+        assertThat(sut.getLast()).isNotEqualTo(element);
+    }
 }

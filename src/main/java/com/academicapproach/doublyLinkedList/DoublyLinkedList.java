@@ -38,6 +38,20 @@ public class DoublyLinkedList<T> {
         size++;
     }
 
+    public void addLast(T element) {
+
+        final NodeDL<T> formerLast = last;
+        final NodeDL<T> newNode = new NodeDL(element, formerLast, null);
+        last = newNode;
+
+        if (formerLast != null) {
+            formerLast.next = newNode;
+        } else {
+            first = newNode;
+        }
+        size++;
+    }
+
     public void addAtPos(int index, T element) {
 
         checkIndexPositionIsInBoundsAndThrowExceptionIfNot(index);
@@ -70,6 +84,35 @@ public class DoublyLinkedList<T> {
         checkIndexPositionIsInBoundsAndThrowExceptionIfNot(index);
         return getNode(index).element;
     }
+
+    public T removeFromPos(int index) {
+        checkIndexPositionIsInBoundsAndThrowExceptionIfNot(index);
+        NodeDL<T> nodeToDelete = getNode(index);
+
+        final T elementToDelete = nodeToDelete.element;
+        final NodeDL<T> nextNode = nodeToDelete.next;
+        final NodeDL<T> previousNode = nodeToDelete.prev;
+
+        if (previousNode == null) {
+            first = nextNode;
+        } else {
+            previousNode.next = nextNode;
+            nodeToDelete.prev = null;
+        }
+
+        if (nextNode == null) {
+            last = previousNode;
+        } else {
+            nextNode.prev = previousNode;
+            nodeToDelete.next = null;
+        }
+
+        nodeToDelete.element = null;
+        size--;
+        return elementToDelete;
+    }
+
+
 
     private void checkIndexPositionIsInBoundsAndThrowExceptionIfNot(int index) {
         if (index < 0 || index >= size) {
@@ -106,33 +149,19 @@ public class DoublyLinkedList<T> {
 
         final NodeDL<T> previousNode = node.prev;
         final NodeDL<T> newNode = new NodeDL<T>(element, previousNode, node);
-
+        node.prev = newNode;
         if (previousNode == null) {
             first = newNode;
         } else {
             previousNode.next = newNode;
         }
+
         size++;
     }
-
-    public void addLast(T element) {
-
-        final NodeDL<T> formerLast = last;
-        final NodeDL<T> newNode = new NodeDL(element, formerLast, null);
-        last = newNode;
-
-        if (formerLast != null) {
-            formerLast.next = newNode;
-        } else {
-            first = newNode;
-        }
-        size++;
-    }
-
 
     private static class NodeDL<T> {
 
-        final T element;
+        T element;
 
         NodeDL prev;
 
