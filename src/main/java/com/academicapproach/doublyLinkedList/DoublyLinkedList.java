@@ -32,7 +32,14 @@ public class DoublyLinkedList<T> {
             formerFirst.prev = first;
         }
         size++;
+    }
 
+    public void addAtPos(int index, T element) {
+
+        checkIndexPositionIsInBoundsAndThrowExceptionIfNot(index);
+
+        NodeDL<T> nodeAtPos = getNode(index);
+        addNodeBefore(element, nodeAtPos);
     }
 
     public T getFirst() {
@@ -43,6 +50,43 @@ public class DoublyLinkedList<T> {
             throw new NoSuchElementException();
         }
         return firstNode.element;
+    }
+
+    public T getByPos(int index) {
+
+        checkIndexPositionIsInBoundsAndThrowExceptionIfNot(index);
+        return getNode(index).element;
+    }
+
+    private boolean checkIndexPositionIsInBoundsAndThrowExceptionIfNot(int index) {
+        if (index < 0 || index >= size) {
+            throw new IndexOutOfBoundsException("Index out of range: " + index + ". List size is: " + size);
+        } else return true;
+    }
+
+    private NodeDL<T> getNode(int index) {
+
+        NodeDL<T> searchedNode = first;
+
+        while (index > 0) {
+            index--;
+            searchedNode = searchedNode.next;
+        }
+
+        return searchedNode;
+    }
+
+    private void addNodeBefore(T element, NodeDL<T> node) {
+
+        final NodeDL<T> previousNode = node.prev;
+        final NodeDL<T> newNode = new NodeDL<T>(element, previousNode, node);
+
+        if (previousNode == null) {
+            first = newNode;
+        } else {
+            previousNode.next = newNode;
+        }
+        size++;
     }
 
     private static class NodeDL<T> {
