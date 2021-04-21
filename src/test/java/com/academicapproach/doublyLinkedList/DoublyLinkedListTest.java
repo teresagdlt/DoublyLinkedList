@@ -76,22 +76,40 @@ public class DoublyLinkedListTest {
 
 
     @Test
-    public void givenListWithElements_whenGetByPos_thenReturnTheCorrectOne() {
+    public void givenListWithElements_whenGetByPosInFirstHalf_thenReturnTheCorrectOne() {
 
         // arrange
-        sut.addFirst(4);
-        sut.addFirst(3);
-        sut.addFirst(5);
+        sut.addFirst(13);
+        sut.addFirst(12);
+        sut.addFirst(11);
+        sut.addFirst(10);
 
         //act
         final Integer first = sut.getByPos(0);
         final Integer second = sut.getByPos(1);
-        final Integer third = sut.getByPos(2);
+
 
         // assert
-        assertThat(first).isEqualTo(5);
-        assertThat(second).isEqualTo(3);
-        assertThat(third).isEqualTo(4);
+        assertThat(first).isEqualTo(10);
+        assertThat(second).isEqualTo(11);
+    }
+
+    @Test
+    public void givenListWithElements_whenGetByPosInSecondHalf_thenReturnTheCorrectOne() {
+
+        // arrange
+        sut.addFirst(13);
+        sut.addFirst(12);
+        sut.addFirst(11);
+        sut.addFirst(10);
+
+        //act
+        final Integer third = sut.getByPos(2);
+        final Integer forth = sut.getByPos(3);
+
+        // assert
+        assertThat(third).isEqualTo(12);
+        assertThat(forth).isEqualTo(13);
     }
 
     @Test(expected = IndexOutOfBoundsException.class)
@@ -143,5 +161,41 @@ public class DoublyLinkedListTest {
         assertThat(sut.getByPos(1)).isEqualTo(0);
         assertThat(sut.getSize()).isEqualTo(4);
     }
-    
+
+    @Test
+    public void givenListWithElements_whenAddLast_thenInsertElementAtTheEnd() {
+
+        // arrange
+        sut.addFirst(3);
+        sut.addFirst(2);
+        sut.addFirst(1);
+
+        // act
+        sut.addLast(4);
+
+        // assert
+        assertThat(sut.getByPos(3)).isEqualTo(4);
+    }
+
+    @Test(expected = NoSuchElementException.class)
+    public void givenEmptyList_whenTryToGetLast_thenReturnNoSuchElementException() {
+
+        sut.getLast();
+    }
+
+    @Test
+    public void givenListWithElements_whenGetLast_thenReturnIt() {
+
+        // arrange
+        sut.addFirst(4);
+        sut.addFirst(1);
+        sut.addLast(10);
+
+        // act
+        final Integer lastElement = sut.getLast();
+
+        // assert
+        assertThat(lastElement).isEqualTo(10);
+    }
+
 }

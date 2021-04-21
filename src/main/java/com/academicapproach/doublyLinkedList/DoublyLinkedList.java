@@ -5,12 +5,14 @@ import java.util.NoSuchElementException;
 public class DoublyLinkedList<T> {
 
     private NodeDL first;
+    private NodeDL last;
 
     private int size;
 
 
     public DoublyLinkedList() {
         first = null;
+        last = null;
         size = 0;
     }
 
@@ -30,6 +32,8 @@ public class DoublyLinkedList<T> {
 
         if (formerFirst != null) {
             formerFirst.prev = first;
+        } else {
+            last = newNode;
         }
         size++;
     }
@@ -40,6 +44,15 @@ public class DoublyLinkedList<T> {
 
         NodeDL<T> nodeAtPos = getNode(index);
         addNodeBefore(element, nodeAtPos);
+    }
+
+    public T getLast() {
+        final NodeDL<T> lastNode = last;
+
+        if (last == null) {
+            throw new NoSuchElementException();
+        }
+        return lastNode.element;
     }
 
     public T getFirst() {
@@ -58,20 +71,33 @@ public class DoublyLinkedList<T> {
         return getNode(index).element;
     }
 
-    private boolean checkIndexPositionIsInBoundsAndThrowExceptionIfNot(int index) {
+    private void checkIndexPositionIsInBoundsAndThrowExceptionIfNot(int index) {
         if (index < 0 || index >= size) {
             throw new IndexOutOfBoundsException("Index out of range: " + index + ". List size is: " + size);
-        } else return true;
+        }
     }
 
     private NodeDL<T> getNode(int index) {
 
-        NodeDL<T> searchedNode = first;
+        NodeDL<T> searchedNode = null;
 
-        while (index > 0) {
-            index--;
-            searchedNode = searchedNode.next;
+        if (index < size / 2) {
+
+            searchedNode = first;
+
+            for (int i = 0; i < index; i++) {
+                searchedNode = searchedNode.next;
+            }
+        } else {
+
+            searchedNode = last;
+
+            for (int i = size - 1; i > index; i--) {
+                searchedNode = searchedNode.prev;
+            }
+
         }
+
 
         return searchedNode;
     }
@@ -88,6 +114,21 @@ public class DoublyLinkedList<T> {
         }
         size++;
     }
+
+    public void addLast(T element) {
+
+        final NodeDL<T> formerLast = last;
+        final NodeDL<T> newNode = new NodeDL(element, formerLast, null);
+        last = newNode;
+
+        if (formerLast != null) {
+            formerLast.next = newNode;
+        } else {
+            first = newNode;
+        }
+        size++;
+    }
+
 
     private static class NodeDL<T> {
 
