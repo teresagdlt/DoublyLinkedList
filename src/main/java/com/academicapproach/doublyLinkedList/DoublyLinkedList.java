@@ -86,8 +86,41 @@ public class DoublyLinkedList<T> {
     }
 
     public T removeFromPos(int index) {
+
         checkIndexPositionIsInBoundsAndThrowExceptionIfNot(index);
         NodeDL<T> nodeToDelete = getNode(index);
+        return removeNode(nodeToDelete);
+    }
+
+    public T removeFirst() {
+
+        final NodeDL<T> firstNode = first;
+
+        if (first == null) {
+            throw new NoSuchElementException();
+        }
+
+        return removeNode(firstNode);
+    }
+
+    public T removeLast() {
+
+        final NodeDL<T> lastNode = last;
+
+        if (last == null) {
+            throw new NoSuchElementException();
+        }
+
+        return removeNode(lastNode);
+    }
+
+    private void checkIndexPositionIsInBoundsAndThrowExceptionIfNot(int index) {
+        if (index < 0 || index >= size) {
+            throw new IndexOutOfBoundsException("Index out of range: " + index + ". List size is: " + size);
+        }
+    }
+
+    private T removeNode(NodeDL<T> nodeToDelete) {
 
         final T elementToDelete = nodeToDelete.element;
         final NodeDL<T> nextNode = nodeToDelete.next;
@@ -112,14 +145,6 @@ public class DoublyLinkedList<T> {
         return elementToDelete;
     }
 
-
-
-    private void checkIndexPositionIsInBoundsAndThrowExceptionIfNot(int index) {
-        if (index < 0 || index >= size) {
-            throw new IndexOutOfBoundsException("Index out of range: " + index + ". List size is: " + size);
-        }
-    }
-
     private NodeDL<T> getNode(int index) {
 
         NodeDL<T> searchedNode = null;
@@ -138,9 +163,7 @@ public class DoublyLinkedList<T> {
             for (int i = size - 1; i > index; i--) {
                 searchedNode = searchedNode.prev;
             }
-
         }
-
 
         return searchedNode;
     }
@@ -160,11 +183,8 @@ public class DoublyLinkedList<T> {
     }
 
     private static class NodeDL<T> {
-
         T element;
-
         NodeDL prev;
-
         NodeDL next;
 
         NodeDL(T element, NodeDL prev, NodeDL next) {
