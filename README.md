@@ -9,7 +9,7 @@ It has been developed by performing **TDD**.
 
 For the purpose of this exercise, several features have been implemented in order to be able to manage the list and take advantage of being doubly linked. Of course there are still many features that could be added.
 
-####The methods supported in this implementation are:
+#### The methods supported in this implementation are:
 
 - getSize: returns number of elements in the list.
 
